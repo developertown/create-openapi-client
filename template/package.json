@@ -1,0 +1,23 @@
+{
+  "name": "{{name}}",
+  "version": "{{version}}",
+  "description": "{{description}}",
+  "author": "{{author}}",
+  "license": "{{license}}",
+  "repository": "{{repository}}",
+  "scripts": {
+    "generate": "openapi-generator generate -i openapi.json -o ./src --generator-name typescript-fetch --additional-properties=typescriptThreePlus=true,supportsES6=true --type-mappings LocalDate=LocalDate",
+    "postgenerate": "yarn lint:fix",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "npm run lint -- --fix"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^1.0.12-4.3.0",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^2.0.4"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "name": "@developertown/create-openapi-client",
+  "version": "0.0.1",
+  "bin": {
+    "create-openapi-client": "./bin/run"
+  },
+  "bugs": "https://github.com/developertown/create-openapi-client/issues",
+  "dependencies": {
+    "@oclif/command": "^1",
+    "@oclif/config": "^1",
+    "@oclif/plugin-help": "^2",
+    "globby": "^11.0.0",
+    "handlebars": "^4.7.6",
+    "inquirer": "^7.1.0",
+    "listr": "^0.14.3",
+    "shelljs": "^0.8.3",
+    "tslib": "^1"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1",
+    "@types/handlebars": "^4.1.0",
+    "@types/inquirer": "^6.5.0",
+    "@types/listr": "^0.14.2",
+    "@types/node": "^10",
+    "@types/shelljs": "^0.8.7",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "eslint": "^5.13",
+    "eslint-config-oclif": "^3.1",
+    "eslint-config-oclif-typescript": "^0.1",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^2.0.2",
+    "ts-node": "^8",
+    "typescript": "^3.3"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib"
+  ],
+  "homepage": "https://github.com/developertown/create-openapi-client",
+  "keywords": [
+    "oclif",
+    "openapi",
+    "template",
+    "typescript"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "oclif": {
+    "bin": "create-openapi-client"
+  },
+  "repository": "https://github.com/developertown/create-openapi-client",
+  "scripts": {
+    "posttest": "eslint . --ext .ts --config .eslintrc",
+    "prepack": "rm -rf lib && tsc -b && oclif-dev readme",
+    "test": "echo NO TESTS",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "types": "lib/index.d.ts"
+}
