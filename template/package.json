@@ -5,7 +5,15 @@
   "author": "{{author}}",
   "license": "{{license}}",
   "repository": "{{repository}}",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.esm.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
   "scripts": {
+    "build": "rollup -c rollup.config.js",
     "pregenerate": "curl {{openapiUrl}} > openapi.json",
     "generate": "openapi-generator generate -i openapi.json -o ./src --generator-name typescript-fetch --additional-properties=typescriptThreePlus=true,supportsES6=true --type-mappings LocalDate=LocalDate",
     "postgenerate": "yarn lint:fix",
@@ -14,12 +22,16 @@
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^1.0.12-4.3.0",
+    "@rollup/plugin-commonjs": "^11.0.2",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
+    "@wessberg/rollup-plugin-ts": "^1.2.23",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
     "prettier": "^2.0.4",
+    "rollup": "^2.3.3",
+    "rollup-plugin-clear": "^2.0.7",
     "typescript": "^3.8.3"
   }
 }
