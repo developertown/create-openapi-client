@@ -46,13 +46,32 @@ const createOpenApiClient = async (packageDirectory: string, packageInfo: Packag
     },
     {
       title: "Initialized a git repository.",
-      task: (ctx, task) =>
+      task: (ctx, task) => {
+        const gitIgnorePath = path.join(packageDirectory, ".gitignore");
         performInDirectory(packageDirectory, async () => {
           const hasGit = await git.isInstalled();
           if (hasGit) {
             const alreadyInitialized = await git.isInitialized();
             if (!alreadyInitialized) {
               await git.init();
+              fs.writeFileSync(
+                gitIgnorePath,
+                `
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+/dist
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+`,
+                `utf8`,
+              );
               await git.commit("Initialize project using create openapi client");
             } else {
               task.skip("git repository is already initialized");
@@ -60,7 +79,8 @@ const createOpenApiClient = async (packageDirectory: string, packageInfo: Packag
           } else {
             task.skip("git is not available");
           }
-        }),
+        });
+      },
     },
   ]);
   await tasks.run();

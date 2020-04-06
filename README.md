@@ -15,11 +15,11 @@
 
 <!-- usage -->
 ```sh-session
-$ npm install -g create-openapi-client
+$ npm install -g @developertown/create-openapi-client
 $ create-openapi-client COMMAND
 running command...
 $ create-openapi-client (-v|--version|version)
-create-openapi-client/0.0.1 darwin-x64 node-v10.14.0
+@developertown/create-openapi-client/0.0.1 darwin-x64 node-v10.14.0
 $ create-openapi-client --help [COMMAND]
 USAGE
   $ create-openapi-client COMMAND

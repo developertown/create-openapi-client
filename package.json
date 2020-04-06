@@ -39,7 +39,8 @@
   },
   "files": [
     "/bin",
-    "/lib"
+    "/lib",
+    "/template"
   ],
   "homepage": "https://github.com/developertown/create-openapi-client",
   "keywords": [
