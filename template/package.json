@@ -6,6 +6,7 @@
   "license": "{{license}}",
   "repository": "{{repository}}",
   "scripts": {
+    "pregenerate": "curl {{openapiUrl}} > openapi.json",
     "generate": "openapi-generator generate -i openapi.json -o ./src --generator-name typescript-fetch --additional-properties=typescriptThreePlus=true,supportsES6=true --type-mappings LocalDate=LocalDate",
     "postgenerate": "yarn lint:fix",
     "lint": "eslint src --ext .ts,.tsx",

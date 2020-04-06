@@ -6,7 +6,7 @@ import getPackageInfo from "./getPackageInfo";
 class CreateOpenapiClient extends Command {
   public static description = "Creates an openapi client library";
 
-  public static examples = ["$ create-openapi-client my-api-name"];
+  public static examples = ["$ create-openapi-client petstore-api https://petstore.swagger.io/v2/swagger.json"];
 
   public static flags = {
     description: flags.string({
@@ -36,18 +36,25 @@ class CreateOpenapiClient extends Command {
     }),
   };
 
-  public static args = [{ name: "name", required: true }];
+  public static args = [
+    { name: "name", description: "Package name (petstore-api)", required: true },
+    {
+      name: "openapiUrl",
+      description: "OpenAPI Specification (https://petstore.swagger.io/v2/swagger.json)",
+      required: true,
+    },
+  ];
 
   public async run(): Promise<void> {
     const {
-      args: { name },
+      args: { name, openapiUrl },
       flags,
     } = this.parse(CreateOpenapiClient);
 
     const packageInfo = await getPackageInfo({ name, ...flags });
     const packageDirectory = path.join(process.cwd(), name);
 
-    await createOpenApiClient(packageDirectory, packageInfo);
+    await createOpenApiClient({ packageDirectory, openapiUrl, ...packageInfo });
   }
 }
 

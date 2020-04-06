@@ -7,7 +7,12 @@ import * as git from "./git";
 import { exec, performInDirectory } from "./shell";
 import { PackageInfo } from "./getPackageInfo";
 
-const createOpenApiClient = async (packageDirectory: string, packageInfo: PackageInfo) => {
+type OpenApiClientOptions = PackageInfo & {
+  packageDirectory: string;
+  openapiUrl: string;
+};
+
+const createOpenApiClient = async ({ packageDirectory, ...options }: OpenApiClientOptions) => {
   const tasks = new Listr([
     {
       title: "Creating openapi client package",
@@ -19,9 +24,7 @@ const createOpenApiClient = async (packageDirectory: string, packageInfo: Packag
 
         templateFiles.forEach((templateFile) => {
           const template = handlebars.compile(fs.readFileSync(templateFile, "utf8"));
-          const content = template({
-            ...packageInfo,
-          });
+          const content = template(options);
           const fileRelativePath = path.relative(templateDirectory, templateFile).replace(/\\/g, "/");
           const destinationFile = path.join(packageDirectory, fileRelativePath);
           const destinationDirectory = path.parse(destinationFile).dir;
