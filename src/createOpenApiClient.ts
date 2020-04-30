@@ -46,7 +46,10 @@ const createOpenApiClient = async ({ packageDirectory, ...options }: OpenApiClie
     {
       title: "Generate openapi client",
       task: () => {
-        return performInDirectory(packageDirectory, () => exec("yarn generate"));
+        return performInDirectory(packageDirectory, async () => {
+          await exec("yarn generate");
+          await exec("yarn build");
+        });
       },
     },
     {
@@ -69,8 +72,10 @@ const createOpenApiClient = async ({ packageDirectory, ...options }: OpenApiClie
 /.pnp
 .pnp.js
 
+# production
 /dist
 
+# misc
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

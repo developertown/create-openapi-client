@@ -1,6 +1,5 @@
-import commonjs from "@rollup/plugin-commonjs";
 import clear from "rollup-plugin-clear";
-import ts from "@wessberg/rollup-plugin-ts";
+import ts from "rollup-plugin-typescript2";
 import { builtinModules } from "module";
 import pkg from "./package.json";
 
@@ -33,6 +32,5 @@ module.exports = {
       watch: false,
     }),
     ts(),
-    commonjs(),
   ],
 };
