@@ -15,7 +15,7 @@
     "build": "rollup -c rollup.config.js",
     "pregenerate": "curl {{openapiUrl}} > openapi.json",
     "generate": "rm -rf ./src && openapi-generator-cli generate -i openapi.json -o ./src --generator-name typescript-fetch --additional-properties=typescriptThreePlus=true,supportsES6=true --type-mappings LocalDate=LocalDate",
-    "postgenerate": "yarn lint:fix",
+    "postgenerate": "yarn lint:fix && yarn format:fix",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --ignore-unknown '**/*.*'",

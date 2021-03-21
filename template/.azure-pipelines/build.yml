@@ -29,7 +29,7 @@ stages:
             inputs:
               targetType: "inline"
               script: "gem install license_finder"
-         - task: Bash@3
+          - task: Bash@3
             displayName: "Install Dependencies"
             inputs:
               workingDirectory: ${{ parameters.package_directory }}
@@ -54,11 +54,11 @@ stages:
               workingDir: "${{ parameters.package_directory }}"
               customCommand: "run-script format:check"
           - task: Npm@1
-              displayName: "Build"
-              inputs:
-                command: "custom"
-                workingDir: "${{ parameters.package_directory }}"
-                customCommand: "run-script build"
+            displayName: "Build"
+            inputs:
+              command: "custom"
+              workingDir: "${{ parameters.package_directory }}"
+              customCommand: "run-script build"
           - template: publish.yml
             parameters:
               package_directory: "${{ parameters.package_directory }}"

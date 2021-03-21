@@ -23,17 +23,20 @@ const createOpenApiClient = async ({ packageDirectory, ...options }: OpenApiClie
         });
 
         templateFiles.forEach((templateFile) => {
-          const template = handlebars.compile(fs.readFileSync(templateFile, "utf8"));
+          const originalFileContents = fs.readFileSync(templateFile, "utf8");
+          const template = handlebars.compile(originalFileContents);
           const content = template(options);
           const fileRelativePath = path.relative(templateDirectory, templateFile).replace(/\\/g, "/");
           const destinationFileRelativePath = path.join(packageDirectory, fileRelativePath);
           const { dir: destinationDirectory, ext } = path.parse(destinationFileRelativePath);
-          const destinationFile =
-            ext === ".hbs" ? destinationFileRelativePath.replace(/.hbs/g, "") : destinationFileRelativePath;
+          const isTemplateFile = ext === ".hbs";
+          const destinationFile = isTemplateFile
+            ? destinationFileRelativePath.replace(/.hbs/g, "")
+            : destinationFileRelativePath;
           if (!fs.existsSync(destinationDirectory)) {
             fs.mkdirSync(destinationDirectory);
           }
-          fs.writeFileSync(destinationFile, content, "utf8");
+          fs.writeFileSync(destinationFile, isTemplateFile ? content : originalFileContents, "utf8");
         });
       },
     },
