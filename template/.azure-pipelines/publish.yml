@@ -1,0 +1,9 @@
+parameters:
+  pipeline_build_artifact_name: "dist"
+  pipeline_cypress_artifact_name: "cypress"
+  package_directory: "$(System.DefaultWorkingDirectory)"
+
+steps:
+  - publish: "${{ parameters.package_directory }}/dist"
+    displayName: "Publish Build Artifacts"
+    artifact: "${{ parameters.pipeline_build_artifact_name }}"

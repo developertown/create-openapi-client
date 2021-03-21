@@ -1,0 +1,64 @@
+parameters:
+  condition: "always()"
+  agent_vm_image: "ubuntu-16.04"
+  node_version: "10.x"
+  build_tag: "$(Build.BuildId)"
+  build_repository: "$(Build.Repository.Name)"
+  package_directory: "$(System.DefaultWorkingDirectory)"
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+        steps:
+          - task: NodeTool@0
+            displayName: "Install Node.js"
+            inputs:
+              versionSpec: ${{ parameters.node_version }}
+          - task: Bash@3
+            displayName: "Install Yarn"
+            inputs:
+              targetType: "inline"
+              script: "npm i -g yarn"
+          - task: UseRubyVersion@0
+            inputs:
+              versionSpec: ">= 2.4"
+              addToPath: true
+          - task: Bash@3
+            displayName: "Install License Checker"
+            inputs:
+              targetType: "inline"
+              script: "gem install license_finder"
+         - task: Bash@3
+            displayName: "Install Dependencies"
+            inputs:
+              workingDirectory: ${{ parameters.package_directory }}
+              targetType: "inline"
+              script: "yarn install"
+          - task: Bash@3
+            displayName: "Check Licenses"
+            inputs:
+              workingDirectory: ${{ parameters.package_directory }}
+              targetType: "inline"
+              script: "license_finder"
+          - task: Npm@1
+            displayName: "Lint"
+            inputs:
+              command: "custom"
+              workingDir: "${{ parameters.package_directory }}"
+              customCommand: "run-script lint"
+          - task: Npm@1
+            displayName: "Check format"
+            inputs:
+              command: "custom"
+              workingDir: "${{ parameters.package_directory }}"
+              customCommand: "run-script format:check"
+          - task: Npm@1
+              displayName: "Build"
+              inputs:
+                command: "custom"
+                workingDir: "${{ parameters.package_directory }}"
+                customCommand: "run-script build"
+          - template: publish.yml
+            parameters:
+              package_directory: "${{ parameters.package_directory }}"
